@@ -37,7 +37,6 @@ export default class GameScene extends Phaser.Scene {
     this.load.image("green-circle", greenCircle.src);
     this.load.image("gray-circle", grayCircle.src);
 
-
     this.load.tilemapTiledJSON("map", map);
     this.load.image("mapTile", mapTile.src);
   }
@@ -47,16 +46,29 @@ export default class GameScene extends Phaser.Scene {
     this.updateChildrenGroup.runChildUpdate = true;
 
     //enemy group collision with self
-    this.player = new Player(this, 400, 300);
+    this.player = new Player(this, 2275, 1220);
     this.updateChildrenGroup.add(this.player);
 
     //camera
     this.cameras.main.startFollow(this.player, true, 0.05, 0.05);
 
     //create tilemap
-    const map = this.make.tilemap({ key: "map" , tileWidth: 64, tileHeight: 64});
-    const tileset = map.addTilesetImage("testTile", "mapTile");
+    const map = this.make.tilemap({
+      key: "map",
+      tileWidth: 64,
+      tileHeight: 64,
+    });
+    const tileset = map.addTilesetImage("tiles1", "mapTile");
+
+    if (!tileset) throw new Error("tileset is undefined");
+    const layer = map.createLayer("Tile Layer 1", tileset, 0, 0);
+    if (!layer) throw new Error("layer is undefined");
+    layer.setCollisionByProperty({ collides: true });
+    this.physics.add.collider(this.player, layer);
+    layer.setDepth(-1);
   }
 
-  update() {}
+  update() {
+    //console.log(this.player?.x, this.player?.y);
+  }
 }
