@@ -213,7 +213,10 @@ export default class Monster
 
     const angle = this.getAngleToTarget();
 
-    if (!this.body) throw new Error("body is undefined");
+    if (!this.body) {
+      this.isAttacking = false;
+      return;
+    }
     this.setVelocity(
       Math.cos(angle) * this.moveSpeed,
       Math.sin(angle) * this.moveSpeed
