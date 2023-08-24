@@ -15,9 +15,14 @@ import redCrystal from "@/games/monster-world/assets/imgs/red-crystal-spriteshee
 import unicornImage from "@/games/monster-world/assets/imgs/unicorn.png";
 import Unicorn from "../scripts/Monsters/unicorn";
 
+//-test-monsters
+import RandomMonster, {
+  ramdomMonsterImage,
+} from "../scripts/Monsters/random-monster";
+
 //prefabs
 import Player from "../scripts/player";
-import IMonster from "../scripts/interface/IMonster";
+import Monster from "../scripts/Monsters/monster";
 
 export default class GameScene extends Phaser.Scene {
   //assets
@@ -42,6 +47,11 @@ export default class GameScene extends Phaser.Scene {
     this.load.image("green-circle", greenCircle.src);
     this.load.image("gray-circle", grayCircle.src);
     this.load.image("unicorn", unicornImage.src);
+
+    //test-monsters
+    ramdomMonsterImage.forEach((value, key) => {
+      this.load.image(key, value);
+    });
 
     this.load.spritesheet("player", redCrystal.src, {
       frameWidth: 64,
@@ -97,13 +107,13 @@ export default class GameScene extends Phaser.Scene {
 
     //spawn max 10 wild monsters between 1740,1940 and 2760,2061
     const maxWildMonsters = 10;
-    const wildMonsters: Unicorn[] = [];
+    const wildMonsters: Monster[] = [];
     for (let i = 0; i < maxWildMonsters; i++) {
       const x = Phaser.Math.Between(1740, 2760);
       const y = Phaser.Math.Between(1940, 2061);
-      const unicorn = new Unicorn(this, x, y, "wild");
-      this.updateChildrenGroup.add(unicorn);
-      wildMonsters.push(unicorn);
+      const randomMonster = new RandomMonster(this, x, y, "wild");
+      this.updateChildrenGroup.add(randomMonster);
+      wildMonsters.push(randomMonster);
     }
     this.monsters.addMultiple(wildMonsters);
   }

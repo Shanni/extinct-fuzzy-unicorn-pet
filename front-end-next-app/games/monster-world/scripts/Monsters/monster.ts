@@ -1,3 +1,4 @@
+import { get } from "http";
 import GameScene from "../../scenes/gameScene";
 import IMonster from "../interface/IMonster";
 
@@ -85,12 +86,7 @@ export default class Monster
       this.followPlayer();
       this.detectNearbyWildMonsters();
     } else {
-      const distance = Phaser.Math.Distance.Between(
-        this.x,
-        this.y,
-        this.target.x,
-        this.target.y
-      );
+      const distance = this.getDisatanceToTarget();
 
       if (distance < this.attackRadius) {
         this.attackTarget();
@@ -158,22 +154,12 @@ export default class Monster
     const player = (this.scene as GameScene).getPlayer();
     if (!player) throw new Error("player is undefined");
 
-    const distance = Phaser.Math.Distance.Between(
-      this.x,
-      this.y,
-      player.x,
-      player.y
-    );
+    const distance = this.getDistanceToPlayer();
 
     if (distance < startFollowingDistance) {
       this.setVelocity(0, 0);
     } else {
-      const angle = Phaser.Math.Angle.Between(
-        this.x,
-        this.y,
-        player.x,
-        player.y
-      );
+      const angle = this.getAngleToPlayer();
 
       this.setVelocity(
         Math.cos(angle) * this.moveSpeed,
@@ -185,7 +171,7 @@ export default class Monster
   async attackTarget() {
     //attack target if target is in range
     //back up a little and charge to hit target
-    if (!this.target) {
+    if (!this.target || !this.target.active) {
       this.isAttacking = false;
       return;
     }
@@ -220,17 +206,12 @@ export default class Monster
   }
 
   attackCharge() {
-    if (!this.target || !this) {
+    if (!this.target || !this || !this.target.active) {
       this.isAttacking = false;
       return;
     }
 
-    const angle = Phaser.Math.Angle.Between(
-      this.x,
-      this.y,
-      this.target.x,
-      this.target.y
-    );
+    const angle = this.getAngleToTarget();
 
     this.setVelocity(
       Math.cos(angle) * this.moveSpeed,
@@ -243,7 +224,7 @@ export default class Monster
   }
 
   dealDamageToTarget() {
-    if (!this.target || !this) {
+    if (!this.target || !this || !this.target.active) {
       this.isAttacking = false;
       return;
     }
@@ -254,16 +235,12 @@ export default class Monster
   }
 
   chaseTarget() {
-    if (!this.target || !this) {
+    if (!this.target || !this || !this.target.active) {
       this.isAttacking = false;
       return;
     }
-    const angle = Phaser.Math.Angle.Between(
-      this.x,
-      this.y,
-      this.target.x,
-      this.target.y
-    );
+
+    const angle = this.getAngleToTarget();
 
     this.setVelocity(
       Math.cos(angle) * this.moveSpeed,
@@ -292,5 +269,37 @@ export default class Monster
     setTimeout(() => {
       this.movingAround();
     }, changeDirectionTime);
+  }
+
+  private getDisatanceToTarget() {
+    if (!this.target) return 0;
+    return Phaser.Math.Distance.Between(
+      this.x,
+      this.y,
+      this.target.x,
+      this.target.y
+    );
+  }
+
+  private getDistanceToPlayer() {
+    const player = (this.scene as GameScene).getPlayer();
+    if (!player) throw new Error("player is undefined");
+    return Phaser.Math.Distance.Between(this.x, this.y, player.x, player.y);
+  }
+
+  private getAngleToTarget() {
+    if (!this.target) return 0;
+    return Phaser.Math.Angle.Between(
+      this.x,
+      this.y,
+      this.target.x,
+      this.target.y
+    );
+  }
+
+  private getAngleToPlayer() {
+    const player = (this.scene as GameScene).getPlayer();
+    if (!player) throw new Error("player is undefined");
+    return Phaser.Math.Angle.Between(this.x, this.y, player.x, player.y);
   }
 }
