@@ -1,10 +1,15 @@
 "use client";
 import Image from "next/image";
+import Link from "next/link";
 import React, { useState } from "react";
 import ModalVideo from "react-modal-video";
 
 const Banner = () => {
   const [isOpen, setOpen] = useState(false);
+
+  function toGamePage() {
+    window.location.href = "/games/monster-world";
+  }
 
   return (
     <div className="bg-image relative" id="home-section">
@@ -31,22 +36,11 @@ const Banner = () => {
                 other players
               </p>
               <div className="flex align-middle justify-center md:justify-start">
-                <button className="text-xl font-semibold text-white py-4 px-6 lg:px-12 navbutton mr-6">
-                  Get Started
-                </button>
-                <button
-                  onClick={() => setOpen(true)}
-                  className="bg-transparent flex justify-center items-center text-white"
-                >
-                  <Image
-                    src={"/images/Banner/playbutton.svg"}
-                    alt="button-image"
-                    className="mr-3"
-                    width={47}
-                    height={47}
-                  />
-                  How it work
-                </button>
+                <Link href={"#"} prefetch={false} onClick={toGamePage}>
+                  <button className="text-xl font-semibold text-white py-4 px-6 lg:px-12 navbutton mr-6">
+                    Get Started
+                  </button>
+                </Link>
               </div>
             </div>
 
