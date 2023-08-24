@@ -1,9 +1,12 @@
 import GameScene from "../scenes/gameScene";
+import IMonster from "./interface/IMonster";
 
-export default class Player extends Phaser.Physics.Arcade.Image {
+export default class Player extends Phaser.Physics.Arcade.Sprite {
   private moveSpeed: number = 100;
   private displayW = 50;
   private displayH = 50;
+
+  private pets: IMonster[] = [];
 
   private keyW: Phaser.Input.Keyboard.Key | undefined;
   private keyA: Phaser.Input.Keyboard.Key | undefined;
@@ -11,13 +14,29 @@ export default class Player extends Phaser.Physics.Arcade.Image {
   private keyD: Phaser.Input.Keyboard.Key | undefined;
 
   constructor(scene: GameScene, x: number, y: number) {
-    super(scene, x, y, "heart");
+    super(scene, x, y, "player");
 
     //initializing visual and physics
     scene.add.existing(this);
     scene.physics.add.existing(this);
     this.setDisplaySize(this.displayW, this.displayH);
-    this.setCircle(this.body ? this.body.halfWidth : 0, 0, 0);
+
+    if (!this.body) throw new Error("body is undefined");
+    this.setCircle(
+      this.body.halfWidth / 2,
+      this.body.halfWidth / 2,
+      this.body.halfHeight / 2
+    );
+
+    //-animations
+    scene.anims.create({
+      key: "player-idle",
+      frames: scene.anims.generateFrameNumbers("player", { start: 0, end: 3 }),
+      frameRate: 5,
+      repeat: -1,
+    });
+
+    this.play("player-idle");
 
     //initializing keyboard
     this.keyW = this.scene.input.keyboard?.addKey(
