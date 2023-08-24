@@ -11,6 +11,7 @@
   "dependencies": {
     "@headlessui/react": "^1.7.14",
     "@heroicons/react": "^2.0.18",
+    "@prisma/client": "^4.11.0",
     "@types/node": "20.2.0",
     "@types/react": "18.2.6",
     "@types/react-dom": "18.2.4",
@@ -21,6 +22,7 @@
     "phaser": "^3.60.0",
     "phaser3spectorjs": "^0.0.8",
     "postcss": "8.4.23",
+    "prisma": "^5.2.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-modal-video": "^2.0.0",
