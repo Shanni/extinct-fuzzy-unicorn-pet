@@ -3,6 +3,7 @@ import "phaser";
 //tilemap
 import map from "@/games/monster-world/assets/tilemaps/starting-map.json";
 import mapTile from "@/games/monster-world/assets/tilemaps/TestTileSet.png";
+import wildFire from "@/games/monster-world/assets/tilemaps/wild-fire.png";
 
 //images
 import heartImage from "@/games/monster-world/assets/imgs/health-health.png";
@@ -23,8 +24,12 @@ import RandomMonster, {
 //prefabs
 import Player from "../scripts/player";
 import Monster from "../scripts/Monsters/monster";
+import MonsterWithName from "../scripts/Monsters/monsterWithName";
 
 export default class GameScene extends Phaser.Scene {
+  //user data
+  private userData: any;
+
   //assets
   private player:
     | Phaser.Physics.Arcade.Image
@@ -37,6 +42,11 @@ export default class GameScene extends Phaser.Scene {
 
   constructor() {
     super("monster-world");
+  }
+
+  init(data: any) {
+    this.userData = JSON.parse(data.userData);
+    console.log(this.userData[0].collected_monster);
   }
 
   preload() {
@@ -58,8 +68,10 @@ export default class GameScene extends Phaser.Scene {
       frameHeight: 64,
     });
 
+    //tilemap
     this.load.tilemapTiledJSON("map", map);
     this.load.image("mapTile", mapTile.src);
+    this.load.image("wildFire", wildFire.src);
   }
 
   create() {
@@ -68,23 +80,32 @@ export default class GameScene extends Phaser.Scene {
     this.physics.add.collider(this.monsters, this.monsters);
     this.updateChildrenGroup = this.physics.add.group();
     this.updateChildrenGroup.runChildUpdate = true;
+    if (!this.monsters || !this.updateChildrenGroup)
+      throw new Error("group is undefined");
 
     //player
     this.player = new Player(this, 2275, 1220);
     this.updateChildrenGroup.add(this.player);
 
     //pet
-    const unicorn = new Unicorn(this, 2275, 1220, "pet");
-    this.updateChildrenGroup.add(unicorn);
-    this.monsters.add(unicorn);
+    for (const monster in this.userData[0].collected_monster) {
+      if (!this.player) throw new Error("player is undefined");
 
-    const unicorn2 = new Unicorn(this, 2275, 1220, "pet");
-    this.updateChildrenGroup.add(unicorn2);
-    this.monsters.add(unicorn2);
+      const pet = new MonsterWithName(
+        this,
+        this.player.x,
+        this.player.y,
+        "pet",
+        this.userData[0].collected_monster[monster].monster_name
+      );
+      console.log(this.userData[0].collected_monster[monster].monster_name);
 
-    const unicorn3 = new Unicorn(this, 2275, 1220, "pet");
-    this.updateChildrenGroup.add(unicorn3);
-    this.monsters.add(unicorn3);
+      if (!this.monsters || !this.updateChildrenGroup)
+        throw new Error("group is undefined");
+
+      this.updateChildrenGroup.add(pet);
+      this.monsters.add(pet);
+    }
 
     //camera
     this.cameras.main.startFollow(this.player, true, 0.05, 0.05);
@@ -96,14 +117,17 @@ export default class GameScene extends Phaser.Scene {
       tileHeight: 64,
     });
     const tileset = map.addTilesetImage("tiles1", "mapTile");
+    const tileset2 = map.addTilesetImage("wild-fire", "wildFire");
 
-    if (!tileset) throw new Error("tileset is undefined");
+    if (!tileset || !tileset2) throw new Error("tileset is undefined");
     const layer = map.createLayer("Tile Layer 1", tileset, 0, 0);
-    if (!layer) throw new Error("layer is undefined");
+    const layer2 = map.createLayer("Tile Layer 2", tileset2, 0, 0);
+    if (!layer || !layer2) throw new Error("layer is undefined");
     layer.setCollisionByProperty({ collides: true });
     this.physics.add.collider(this.player, layer);
     this.physics.add.collider(this.monsters, layer);
-    layer.setDepth(-1);
+    layer.setDepth(-2);
+    layer2.setDepth(5);
 
     //spawn max 10 wild monsters between 1740,1940 and 2760,2061
     const maxWildMonsters = 10;
