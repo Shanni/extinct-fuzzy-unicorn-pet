@@ -1,5 +1,9 @@
 import "phaser";
 
+//tilemap
+import map from "@/games/monster-world/assets/tilemaps/starting-map.json";
+import mapTile from "@/games/monster-world/assets/tilemaps/TestTileSet.png";
+
 //images
 import heartImage from "@/games/monster-world/assets/imgs/health-health.png";
 import groundImage from "@/games/monster-world/assets/imgs/ground.png";
@@ -32,6 +36,10 @@ export default class GameScene extends Phaser.Scene {
     this.load.image("black-circle", blackCircle.src);
     this.load.image("green-circle", greenCircle.src);
     this.load.image("gray-circle", grayCircle.src);
+
+
+    this.load.tilemapTiledJSON("map", map);
+    this.load.image("mapTile", mapTile.src);
   }
 
   create() {
@@ -44,6 +52,10 @@ export default class GameScene extends Phaser.Scene {
 
     //camera
     this.cameras.main.startFollow(this.player, true, 0.05, 0.05);
+
+    //create tilemap
+    const map = this.make.tilemap({ key: "map" , tileWidth: 64, tileHeight: 64});
+    const tileset = map.addTilesetImage("testTile", "mapTile");
   }
 
   update() {}
