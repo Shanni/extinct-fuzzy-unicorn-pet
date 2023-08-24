@@ -1,15 +1,20 @@
 "use client";
 import { useEffect, useState } from "react";
 import gameConfig from "@/games/monster-world/scripts/gameConfig";
-import GameScene from "@/games/monster-world/scenes/gameScene";
+import Phaser from "phaser";
+
+// pages/index.js
+import dynamic from 'next/dynamic'
+ 
+
 export default function Game(props: { userData: string }) {
   const [game, setGame] = useState<Phaser.Game | null>(null);
 
   useEffect(() => {
     async function loadGame() {
       if (game) return;
-      //lazy load phaser and game
-      await import("phaser");
+      // //lazy load phaser and game
+      // await import("phaser");
 
       const newGame = new Phaser.Game(gameConfig);
 
