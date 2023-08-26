@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { navigation } from "@/app/components/Navbar/navigationData";
+import { navigation } from "@/app/constants/navigationData";
 import unicorn_logo from "@/public/images/Logo/unicorn_logo.png";
 
 interface Social {

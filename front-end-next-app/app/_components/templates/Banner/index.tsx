@@ -44,11 +44,11 @@ const Banner = () => {
               </div>
             </div>
 
-            <div className="col-span-5 lg:-m-48">
+            <div className="max-w-[100%] col-span-5">
               <div className="arrowThree"></div>
               <div className="arrowFour"></div>
               <div className="arrowFive"></div>
-              <div className="h-full max-w-[70%] flex justify-center content-center justify-items-center items-center mx-auto">
+              <div className="h-full max-w-[100%] flex justify-center content-center justify-items-center items-center mx-auto">
                 <img src="/images/Banner/cartoon_unicorn.png" alt="nothing" />
               </div>
               <div className="arrowSix"></div>

@@ -4,7 +4,8 @@ import React from "react";
 import { Bars3Icon } from "@heroicons/react/24/outline";
 import Drawer from "./Drawer";
 import Drawerdata from "./Drawerdata";
-import { navigation } from "./navigationData";
+import { navigation } from "../../../constants/navigationData";
+import Web3ConnectButton from "../../web3/wagmi/Web3ConnectButton";
 // import Contactusform from './Contactus';
 
 function classNames(...classes: string[]) {
@@ -26,12 +27,12 @@ const Navbar = () => {
                 <img
                   className="block h-10 w-20px lg:hidden"
                   src={"/images/Logo/unicorn_logo.png"}
-                  alt="Crypto-Logo"
+                  alt="Logo"
                 />
                 <img
                   className="hidden h-48px w-48px lg:block"
                   src={"/images/Logo/unicorn_logo.png"}
-                  alt="Crypto-Logo"
+                  alt="Logo"
                 />
               </div>
 
@@ -41,6 +42,7 @@ const Navbar = () => {
                 <div className="flex justify-end space-x-4">
                   {navigation.map((item) => (
                     <Link
+                      scroll={true}
                       key={item.name}
                       href={item.href}
                       className={classNames(
@@ -56,9 +58,7 @@ const Navbar = () => {
                   ))}
                 </div>
               </div>
-              <button className="hidden lg:flex justify-end text-xl font-semibold py-4 px-6 lg:px-12 navbutton text-white">
-                Connect Wallet
-              </button>
+              <Web3ConnectButton/>
               {/* <Contactusform /> */}
             </div>
 

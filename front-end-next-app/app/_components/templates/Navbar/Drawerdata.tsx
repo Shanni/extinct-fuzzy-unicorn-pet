@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { navigation } from "./navigationData";
+import { navigation } from "../../../constants/navigationData";
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
