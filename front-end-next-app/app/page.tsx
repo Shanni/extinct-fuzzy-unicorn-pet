@@ -6,8 +6,10 @@ import Features from "@/app/_components/templates/Features/index";
 import Simple from "@/app/_components/templates/Simple/index";
 import Trade from "@/app/_components/templates/Trade/index";
 import Faq from "@/app/_components/templates/Faq/index";
+import path from "path";
 
 export default function Home() {
+  console.log(path.resolve("app/_components/templates/Banner/index.tsx"));
   return (
     <main>
       <Banner />
