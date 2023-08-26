@@ -1,29 +1,39 @@
 "use client";
 import React from "react";
 import { Unity, useUnityContext } from "react-unity-webgl";
-import { usePathname } from "next/navigation";
 import Script from "next/script";
 
 export default function UnityGame() {
-  //console log header.host
+  //check if in development or production
+  let httpPrefix = "https://";
+  const env = process.env.NODE_ENV;
+  if (env == "development") {
+    httpPrefix = "http://";
+  } else if (env == "production") {
+    httpPrefix = "https://";
+  }
+
+  //urls to the public folder for game files
   const host = window.location.host;
   const loaderUrl =
-    "http://" + host + "/game/builds/monster-garden/build/build.loader.js";
+    httpPrefix + host + "/game/builds/monster-garden/build/build.loader.js";
   const dataUrl =
-    "http://" + host + "/game/builds/monster-garden/build/build.data";
+    httpPrefix + host + "/game/builds/monster-garden/build/build.data";
   const frameworkUrl =
-    "http://" + host + "/game/builds/monster-garden/build/build.framework.js";
+    httpPrefix + host + "/game/builds/monster-garden/build/build.framework.js";
   const codeUrl =
-    "http://" + host + "/game/builds/monster-garden/build/build.wasm";
+    httpPrefix + host + "/game/builds/monster-garden/build/build.wasm";
 
+  //urls to the public folder for unity web3 files to manually load
+  //for connecting to web3 wallet
   const web3NetworkUrl =
-    "http://" + host + "/game/builds/monster-garden/network.js";
+    httpPrefix + host + "/game/builds/monster-garden/network.js";
   const web3ScriptUrl =
-    "http://" + host + "/game/builds/monster-garden/web3/index.js";
+    httpPrefix + host + "/game/builds/monster-garden/web3/index.js";
   const web3ModelUrl =
-    "http://" + host + "/game/builds/monster-garden/web3/lib/web3modal.js";
+    httpPrefix + host + "/game/builds/monster-garden/web3/lib/web3modal.js";
   const web3MinUrl =
-    "http://" + host + "/game/builds/monster-garden/web3/lib/web3.min.js";
+    httpPrefix + host + "/game/builds/monster-garden/web3/lib/web3.min.js";
 
   const { unityProvider } = useUnityContext({
     loaderUrl: loaderUrl,
