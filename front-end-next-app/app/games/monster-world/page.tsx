@@ -1,4 +1,3 @@
-
 import getUserInfoByWallet from "@/api/test/dummyApiCaller";
 
 import dynamic from "next/dynamic";
