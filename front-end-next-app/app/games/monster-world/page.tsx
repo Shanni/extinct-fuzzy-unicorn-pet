@@ -2,7 +2,9 @@ import getUserInfoByWallet from "@/api/test/dummyApiCaller";
 
 import dynamic from "next/dynamic";
 
-const Game = dynamic(() => import("@/app/_components/Game"), { ssr: false });
+const Game = dynamic(() => import("@/app/_components/Game/Phaser"), {
+  ssr: false,
+});
 
 export default async function MonsterWorld() {
   const userData = JSON.stringify(await getUserInfoByWallet());
