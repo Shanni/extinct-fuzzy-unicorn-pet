@@ -3,7 +3,6 @@ import "@/node_modules/react-modal-video/scss/modal-video.scss";
 import Navbar from "@/app/_components/templates/Navbar/index";
 import Footer from "@/app/_components/templates/Footer/index";
 import Wagmi from "@/app/_components/web3/wagmi/index";
-import ConnectButton from "./_components/web3/wagmi/Web3ConnectButton";
 
 export const metadata = {
   title: "Extinct-fuzzy-unicorn-pet",
