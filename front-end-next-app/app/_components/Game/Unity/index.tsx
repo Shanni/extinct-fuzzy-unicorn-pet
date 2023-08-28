@@ -3,41 +3,25 @@ import React, { useEffect } from "react";
 import { Unity, useUnityContext } from "react-unity-webgl";
 import Script from "next/script";
 
+
+const CDN_URL = "https://pub-9c776bf7a5e7476f81a686c2ef2769fd.r2.dev";
+
 export default function UnityGame() {
+
+  console.log("UnityGame: CDN_URL: ", CDN_URL);
+
   //check if in development or production
-
-  // useEffect(() => {
-  //   const makeCall = async () => {
-  //     await fetch("/api/getScript", {
-  //       method: "GET",
-  //       headers: { "Content-Type": "application/json", query: "monster-world" },
-  //     })
-  //       .then((res) => {
-  //         return res.json();
-  //       })
-  //       .then((data) => {
-  //         console.log(data);
-  //       });
-  //   };
-
-  //   makeCall();
-  // }, []);
-  //urls for unity game
-  const loaderUrl =
-    "/api/getScript?fileName=monster-garden/build/build.loader.js";
-  const dataUrl = "/api/getScript?fileName=monster-garden/build/build.data";
-  const frameworkUrl =
-    "/api/getScript?fileName=monster-garden/build/build.framework.js";
-  const codeUrl = "/api/getScript?fileName=monster-garden/build/build.wasm";
+  const loaderUrl = `${CDN_URL}/Build/build.loader.js`;
+  const dataUrl = `${CDN_URL}/Build/build.data`;
+  const frameworkUrl = `${CDN_URL}/Build/build.framework.js`;
+  const codeUrl = `${CDN_URL}/Build/build.wasm`;
 
   //urls for unity web3 files to manually load
   //for connecting to web3 wallet
-  const web3NetworkUrl = "/api/getScript?fileName=monster-garden/network.js";
-  const web3ScriptUrl = "/api/getScript?fileName=monster-garden/web3/index.js";
-  const web3ModelUrl =
-    "/api/getScript?fileName=monster-garden/web3/lib/web3modal.js";
-  const web3MinUrl =
-    "/api/getScript?fileName=monster-garden/web3/lib/web3.min.js";
+  const web3NetworkUrl = `${CDN_URL}/network.js`  
+  const web3ScriptUrl = `${CDN_URL}/index.js`
+  const web3ModelUrl = `${CDN_URL}/web3modal.js`
+  const web3MinUrl = `${CDN_URL}/web3.min.js`
 
   const { unityProvider } = useUnityContext({
     loaderUrl: loaderUrl,
