@@ -4,8 +4,7 @@ import gameConfig from "@/games/monster-world/scripts/gameConfig";
 import Phaser from "phaser";
 
 // pages/index.js
-import dynamic from 'next/dynamic'
- 
+import dynamic from "next/dynamic";
 
 export default function Game(props: { userData: string }) {
   const [game, setGame] = useState<Phaser.Game | null>(null);
